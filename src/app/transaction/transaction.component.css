@@ -1,0 +1,7 @@
+table,tr,th{
+    border: 2px white solid;
+    padding: 10px;
+    margin-left: 550px;
+    margin-right: auto;
+    font-size: 20px;
+}

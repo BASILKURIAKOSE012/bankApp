@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { min } from 'rxjs';
 import { DataService } from '../services/data.service';
 
 @Component({
@@ -14,28 +16,37 @@ accno="account number please"
 acno=""
 pswd=""
 
-  constructor(private router:Router, private ds:DataService ) { }
+loginForm=this.fb.group({
+  pswd:['',[Validators.required,Validators.pattern('[a-zA-Z0-9]*')]],
+    acno:['',[Validators.required,Validators.pattern('[0-9]*')]],
+})
+
+  constructor(private router:Router, private ds:DataService,private fb:FormBuilder ) { }
 
   ngOnInit(): void {
   }
 //userdefined functions
 login(){
-  var acno=this.acno
-  var pswd=this.pswd
+  var acno=this.loginForm.value.acno
+  var pswd=this.loginForm.value.pswd
+  if(this.loginForm.valid){
   const result =this.ds.login(acno,pswd)
   if(result){
       alert("login succesfull")
       this.router.navigateByUrl(`dashboard`)
+  }
+  else{
+    alert("invalid form")
+  }
     }
   }
 acnoChange(event:any){
 this.acno=event.target.value
-console.log(this.acno);
 
 }
 pswdChange(event:any){
   this.pswd=event.target.value
-  console.log(this.pswd);
+  
   
 }
 
